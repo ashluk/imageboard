@@ -2,9 +2,32 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <h1>im here</h1>
+<div id="imageboardmain">
+    <h1>IMAGEBOARDMAIN</h1>
+    <h2>{{image.title}}</h2>
+     <ul>
+            <li v-for='image in images' :key='image.id' @click='imageClick'> 
+                {{image.title}} <img src="{{image.url}}" alt="image"> {{image.url}}  </li> <!--image can be anything -- images is referring to an array in our data-->
+        </ul>
+</div>    
+
+    <div id="main">
+        <h2>i really like {{name}}</h2>
+        <h2>Maths! 2 * 2 = {{2 * 2}}</h2>
+        <h2>Capitalise {{name.toUpperCase()}}</h2>
+        <h2 v-if='seen'>can you see me</h2>
+        <h2 v-else>i am the else</h2>
+        <ul>
+            <li v-for='city in cities' :key='city.id' @click='handleClick'> 
+                {{city.name}}, {{city.country}} </li> <!--city can be anything -- cities is referring to an array in our data-->
+        </ul>
+    </div>
     <script src="/js/vue.js"></script>
     <script src="/js/axios.min.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
