@@ -1,3 +1,6 @@
+/*const e = require("express");
+const { axios } = require("./axios.min");*/
+
 console.log("sanity check");
 
 //this is the vue constructor
@@ -8,6 +11,11 @@ new Vue({
         name: "Fennel",
         seen: false, //this working with the v-if statement in the index.html
         cities: [],
+        //this is how we track what is entered into each of these fields via v-model
+        title: "",
+        description: "",
+        username: "",
+        file: null,
     },
     mounted: function () {
         //mounted is a moment that we know that data is loaded
@@ -26,23 +34,43 @@ new Vue({
             });
     },
     methods: {
-        handleClick: function (city) {
-            console.log("handleClick running", city);
-            this.seen = !this.seen;
+        handleClick: function (e) {
+            var formData = new FormData();
+            formData.append("title", this.title);
+            formData.append("description", this.description);
+            formData.append("username", this.username);
+            formData.append("file", this.file);
+            console.log("this.title", this.title);
+            console.log("this.description", this.description);
+            //second argument in axios post is an object
+            axios
+                .post("/upload", formData)
+                .then(function (response) {
+                    console.log("response from post", response);
+                })
+                .catch(function (err) {
+                    console.log("err in axios catch", err);
+                });
+            //this.seen = !this.seen;
             //this. is how we access properties on the vue object.
             //this line is toggling the seen function on and off
+        },
+        handleChange: function (e) {
+            console.log("files", e.target.files[0]);
+            console.log("handlechange is running");
+            this.file = e.target.files[0];
         },
     },
 });
 
 new Vue({
-    el: "#imageboarddiv",
+    el: "#imageboardmain",
     data: {
         name: "imageshere",
         images: [],
     },
     mounted: function () {
-        console.log("imageboarddiv has mounted");
+        console.log("imageboardmain has mounted");
         var self = this;
         axios
             .get("/images")

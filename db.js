@@ -4,7 +4,16 @@ const db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/imageboard"
 );
 
-module.exports.insertImages = () => {
+module.exports.getImages = () => {
     const q = `SELECT * FROM images`;
     return db.query(q);
+};
+module.exports.addImages = () => {
+    const q = `
+    INSERT INTO images (url, username, title, description)
+    VALUES = ($1, $2, $3, $4)
+    RETURNING id
+      `;
+    const params = [url, username, title, description];
+    return db.query(q, params);
 };
