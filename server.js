@@ -9,12 +9,6 @@ const s3 = require("./s3");
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + "/uploads");
-        const { filename } = req.file;
-        db.addImages(title, username, description, s3Url + filename)
-            .then(({ rows }) => {})
-            .catch((err) => {
-                console.log("err in addImages", err);
-            });
     },
     filename: function (req, file, callback) {
         uidSafe(24).then(function (uid) {
@@ -53,7 +47,7 @@ app.get("/cities", (req, res) => {
     console.log("hit the get route");
     res.json(cities);
 });
-app.post("/upload", uploader.single("file"), (req, res) => {
+/*app.post("/upload", uploader.single("file"), (req, res) => {
     console.log("hit the post route....");
     console.log("req.file: ", req.file);
     console.log("req.body: ", req.body);
@@ -66,7 +60,24 @@ app.post("/upload", uploader.single("file"), (req, res) => {
             success: false,
         });
     }
+});*/
+app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("hit thie s3 route");
+    const { title, username, description } = req.body;
+    const { filename } = req.file;
+    db.addImages(title, username, description, s3Url + filename)
+        .then(({ rows }) => {
+            res.json({
+                rows,
+                success: true,
+            });
+            console.log("rows in s3upload", rows);
+        })
+        .catch((err) => {
+            console.log("err in addImages", err);
+        });
 });
+
 app.get("/images", (req, res) => {
     db.getImages()
         .then(({ rows }) => {

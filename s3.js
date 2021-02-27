@@ -40,6 +40,7 @@ exports.upload = (req, res, next) => {
 
     promise
         .then(() => {
+            console.log("image made it to bucket!!!");
             // it worked!!!
         })
         .catch((err) => {
