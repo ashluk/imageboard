@@ -27,7 +27,6 @@
 
             <h3 v-for='mood in moods' @click='selectMood (mood.id)'>{{mood.title}}</h3>
             <my-modal-component v-if="moodSelected" :mood-id="moodSelected" @close="closeComponent"></modal-component>
-                        <button @click="toggleSeen">click me to toggle</button>
 
 
             <li v-for='image in images' :key='image.id' @click='handleClick'> 
@@ -40,7 +39,7 @@
     <div class="modal">
         <h3>this is my modal template </h3>
         <h1>{{name}}</h1>
-        <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2>
+       <!--- <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2>-->
 
         <button @click="toggleSeen">click me to toggle</button>
     </div>

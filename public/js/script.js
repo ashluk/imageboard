@@ -98,12 +98,12 @@ new Vue({
             //this.moodSelcted - id is also close to what we want to do to render images
             this.moodSelected = id;
         },
-        selectImage: function (id) {
+        /*selectImage: function (id) {
             console.log("user selected a image");
             console.log("id clicked", id);
             //this.moodSelcted - id is also close to what we want to do to render images
             this.imageSelected = id;
-        },
+        },*/
         closeComponent: function () {
             console.log(
                 "the component just used that special keyword by emitting it, i should do something"
