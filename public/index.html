@@ -11,10 +11,7 @@
   </header>
 <div id="imageboardmain">
     <h1>IMAGEBOARDMAIN</h1>
-     <ul>
-            <li v-for='image in images' :key='image.id' @click='imageClick'> 
-                {{image.title}} <img :src='image.url' alt="image"> </li> <!--image can be anything -- images is referring to an array in our data-->
-        </ul>
+    
         
 </div>    
  <footer>
@@ -30,6 +27,10 @@
             <button @click.prevent='handleClick'>SUBMIT</button>
 
         </form>
+         <ul>
+            <li v-for='image in images' :key='image.id' @click='handleClick'> 
+                {{image.title}} <img :src='image.url' alt="image"> </li> <!--image can be anything -- images is referring to an array in our data-->
+        </ul>
        <!-- <h2>i really like {{name}}</h2>
         <h2>Maths! 2 * 2 = {{2 * 2}}</h2>
         <h2>Capitalise {{name.toUpperCase()}}</h2>

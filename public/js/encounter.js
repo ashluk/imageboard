@@ -1,16 +1,11 @@
-/*const e = require("express");
-const { axios } = require("./axios.min");*/
-
-console.log("sanity check");
-
 //this is the vue constructor
 //creating a vue instance
 new Vue({
     el: "#main", //this is linked to the div id main -- el is vue's name for elements
     data: {
-        name: "imageboard",
-        //seen: false, //this working with the v-if statement in the index.html
-        images: [],
+        name: "Fennel",
+        seen: false, //this working with the v-if statement in the index.html
+        cities: [],
         //this is how we track what is entered into each of these fields via v-model
         title: "",
         description: "",
@@ -24,10 +19,10 @@ new Vue({
         var self = this; //this is to ensure that function does not overwrite the value of this.
         //the argument we give axios is a route we want to have on our server
         axios
-            .get("/images")
+            .get("/cities")
             .then(function (response) {
                 console.log("response", response.data);
-                self.images = response.data;
+                self.cities = response.data;
             })
             .catch(function (err) {
                 console.log("error in axios", err);
@@ -47,9 +42,6 @@ new Vue({
                 .post("/upload", formData)
                 .then(function (response) {
                     console.log("response from post", response);
-                    console.log("response.data", response.data.imgObject);
-                    console.log(self.images, "self.images");
-                    //.unshift here to add image to array
                 })
                 .catch(function (err) {
                     console.log("err in axios catch", err);
@@ -65,30 +57,3 @@ new Vue({
         },
     },
 });
-
-/*new Vue({
-    el: "#imageboardmain",
-    data: {
-        name: "imageshere",
-        images: [],
-    },
-    mounted: function () {
-        console.log("imageboardmain has mounted");
-        var self = this;
-
-        axios
-            .get("/images")
-            .then(function (response) {
-                console.log("response in imageboard", response.data);
-                self.images = response.data;
-            })
-            .catch(function (err) {
-                console.log("error in axios imgboard", err);
-            });
-    },
-    methods: {
-        imageClick: function (image) {
-            console.log("imageClick running", image);
-        },
-    },
-});*/

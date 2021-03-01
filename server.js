@@ -25,47 +25,20 @@ const uploader = multer({
 });
 app.use(express.static("public"));
 
-const cities = [
-    {
-        id: 1,
-        name: "Amsterdam",
-        country: "holland",
-    },
-    {
-        id: 2,
-        name: "Berlin",
-        country: "Germany",
-    },
-    {
-        id: 3,
-        name: "Venice",
-        country: "Italy",
-    },
-];
-
-app.get("/cities", (req, res) => {
-    console.log("hit the get route");
-    res.json(cities);
-});
-/*app.post("/upload", uploader.single("file"), (req, res) => {
-    console.log("hit the post route....");
-    console.log("req.file: ", req.file);
-    console.log("req.body: ", req.body);
-    if (req.file) {
-        res.json({
-            success: true,
-        });
-    } else {
-        res.json({
-            success: false,
-        });
-    }
-});*/
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     console.log("hit thie s3 route");
     const { title, username, description } = req.body;
     const { filename } = req.file;
-    db.addImages(title, username, description, s3Url + filename)
+    const fullUrl = "https://s3.amazonaws.com/indreamsimages/" + filename;
+    console.log("fullurl", fullUrl);
+    const imgObject = {
+        url: fullUrl,
+        username: username,
+        title: title,
+        description: description,
+    };
+    console.log("imgObject", imgObject);
+    db.addImages(title, username, description, filename)
         .then(({ rows }) => {
             res.json({
                 rows,
@@ -90,3 +63,41 @@ app.get("/images", (req, res) => {
 });
 
 app.listen(8080, () => console.log("imageboard server running"));
+
+///////////////////////////ENCOUNTER//////////////////////////////////
+/*const cities = [
+    {
+        id: 1,
+        name: "Amsterdam",
+        country: "holland",
+    },
+    {
+        id: 2,
+        name: "Berlin",
+        country: "Germany",
+    },
+    {
+        id: 3,
+        name: "Venice",
+        country: "Italy",
+    },
+];
+
+app.get("/cities", (req, res) => {
+    console.log("hit the get route");
+    res.json(cities);
+});
+app.post("/upload", uploader.single("file"), (req, res) => {
+    console.log("hit the post route....");
+    console.log("req.file: ", req.file);
+    console.log("req.body: ", req.body);
+    if (req.file) {
+        res.json({
+            success: true,
+        });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});*/
