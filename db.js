@@ -9,10 +9,10 @@ module.exports.getImages = () => {
     ORDER BY id DESC`;
     return db.query(q);
 };
-module.exports.addImages = () => {
+module.exports.addImages = (url, username, title, description) => {
     const q = `
     INSERT INTO images (url, username, title, description)
-    VALUES = ($1, $2, $3, $4)
+    VALUES  ($1, $2, $3, $4)
     RETURNING id
       `;
     const params = [url, username, title, description];

@@ -29,19 +29,24 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     console.log("hit thie s3 route");
     const { title, username, description } = req.body;
     const { filename } = req.file;
+
     const fullUrl = "https://s3.amazonaws.com/indreamsimages/" + filename;
-    console.log("fullurl", fullUrl);
+    //console.log("fullurl", fullUrl);
     const imgObject = {
         url: fullUrl,
         username: username,
         title: title,
         description: description,
     };
-    console.log("imgObject", imgObject);
-    db.addImages(title, username, description, filename)
+    console.log("imgObject in server", imgObject);
+    db.addImages(fullUrl, username, title, description)
         .then(({ rows }) => {
+            //console.log("rows.id", rows);
+            let id = rows;
+            console.log("id", id);
             res.json({
-                rows,
+                imgObject: imgObject,
+                id: id,
                 success: true,
             });
             console.log("rows in s3upload", rows);

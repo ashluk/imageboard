@@ -11,7 +11,7 @@ const s3 = new aws.S3({
     accessKeyId: secrets.AWS_KEY,
     secretAccessKey: secrets.AWS_SECRET,
 });
-
+//console.log(secrets, "secrets");
 exports.upload = (req, res, next) => {
     if (!req.file) {
         console.log("multer fail");

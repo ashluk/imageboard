@@ -1,21 +1,44 @@
 /*const e = require("express");
 const { axios } = require("./axios.min");*/
 
-console.log("sanity check");
+Vue.component("my-modal-component", {
+    template: "#my-modal-template",
+    data: function () {
+        return {
+            name: "im here",
+        };
+    },
+    props: ["imageId"],
+    mounted: function () {
+        console.log("this imageId in component", this.imageId);
+    },
+    methods: {
+        toggleSeen: function () {
+            console.log("clicking seen");
+            this.seen = !this.seen;
+        },
+    },
+});
 
-//this is the vue constructor
-//creating a vue instance
 new Vue({
     el: "#main", //this is linked to the div id main -- el is vue's name for elements
     data: {
         name: "imageboard",
-        //seen: false, //this working with the v-if statement in the index.html
+
         images: [],
-        //this is how we track what is entered into each of these fields via v-model
+        imageSelected: null,
+        seen: true,
         title: "",
         description: "",
         username: "",
         file: null,
+
+        /* moods: [
+            { id: 1, title: ":)" },
+            { id: 2, title: ":(" },
+            { id: 3, title: ":i" },
+        ],
+        moodSelected: null,*/
     },
     mounted: function () {
         //mounted is a moment that we know that data is loaded
@@ -43,12 +66,16 @@ new Vue({
             console.log("this.title", this.title);
             console.log("this.description", this.description);
             //second argument in axios post is an object
+            console.log(self.images, "self.images");
+            var replacingThis = this;
+
             axios
                 .post("/upload", formData)
                 .then(function (response) {
-                    console.log("response from post", response);
-                    console.log("response.data", response.data.imgObject);
-                    console.log(self.images, "self.images");
+                    console.log("response from post", response.data.imgObject);
+                    var newImage = response.data.imgObject;
+                    console.log("replacingThis.images", replacingThis.images);
+                    replacingThis.images.unshift(newImage);
                     //.unshift here to add image to array
                 })
                 .catch(function (err) {
@@ -58,13 +85,60 @@ new Vue({
             //this. is how we access properties on the vue object.
             //this line is toggling the seen function on and off
         },
+
         handleChange: function (e) {
             console.log("files", e.target.files[0]);
             console.log("handlechange is running");
             this.file = e.target.files[0];
         },
+        /*selectMood: function (id) {
+            console.log("user selected a mood");
+            console.log("id clicked", id);
+            //this.moodSelcted - id is also close to what we want to do to render images
+            this.moodSelected = id;
+        },*/
+        selectImage: function (id) {
+            console.log("user selected a image");
+            console.log("id clicked", id);
+            //this.moodSelcted - id is also close to what we want to do to render images
+            this.imgSelected = id;
+        },
+        closeComponent: function () {
+            console.log(
+                "the component just used that special keyword by emitting it, i should do something"
+            );
+        },
     },
 });
+
+////////////////////////ENCOUNTER//////////////////////////////
+Vue.component("my-first-component", {
+    template: "#my-component-template",
+    data: function () {
+        return {
+            name: "ash",
+            count: 1,
+        };
+    },
+    props: ["moodId"],
+    mounted: function () {
+        console.log("this.moodId in component", this.moodId);
+    },
+    methods: {
+        updateCount: function () {
+            console.log("button in component goit clicked");
+            //adding this. to count gives us access to count
+            this.count++;
+        },
+        notifyParentToDoSth: function () {
+            console.log(
+                "hey component here i want the main vue instance to know to do something"
+            );
+            this.$emit("close");
+        },
+    },
+});
+/////////////////////////////////////////////////////////////////////////
 
 /*new Vue({
     el: "#imageboardmain",

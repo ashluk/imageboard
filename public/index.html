@@ -28,10 +28,47 @@
 
         </form>
          <ul>
-            <li v-for='image in images' :key='image.id' @click='handleClick'> 
+             <h1 v-if='seen'>HIDE ME</h1>
+    <!--<my-first-component v-if="moodSelected" :mood-id="moodSelected" just-another-prop="🍸"
+    @close="closeComponent"></my-first-component>
+
+            <h3 v-for='mood in moods' @click='selectMood (mood.id)'>{{mood.title}}</h3> -->
+
+            <my-modal-component v-if="imageSelected" :img-id="imageSelected" @close="closeComponent"></modal-component>
+
+              <!--- <h3 v-for="image in images" @click="selectImage(image.id)">{{image.title}}</h3> -->
+
+            <li v-for='image in images' :key='image.id'> 
                 {{image.title}} <img :src='image.url' alt="image"> </li> <!--image can be anything -- images is referring to an array in our data-->
         </ul>
-       <!-- <h2>i really like {{name}}</h2>
+     
+    </div>
+
+    <script id="my-modal-template" type="text/x-template">
+    <div class="modal">
+        <h3>this is my modal component </h3>
+        <h1>{{name}}</h1>
+        <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2>
+
+        <button @click="toggleSeen">click me to toggle</button>
+    </div>
+    </script>
+    <!--below is the template for my first component, it has to have an id and the type set to text/x-template, it needs to be outside our main block of html-->
+
+    <!---<script id="my-component-template" type="text/x-template">
+        <div class = "component">
+            <h3>hello i am my first component</h3>
+            <h2>{{name}} is {{count}}</h2>
+            <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2>
+            <button @click="updateCount">count up!</button>
+        </div>
+    </script>--->
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
+  <!-- <h2>i really like {{name}}</h2>
         <h2>Maths! 2 * 2 = {{2 * 2}}</h2>
         <h2>Capitalise {{name.toUpperCase()}}</h2>
         <h2 v-if='seen'>can you see me</h2>
@@ -40,9 +77,3 @@
             <li v-for='city in cities' :key='city.id' @click='handleClick'> 
                 {{city.name}}, {{city.country}} </li> <!--city can be anything -- cities is referring to an array in our data
         </ul>--->
-    </div>
-    <script src="/js/vue.js"></script>
-    <script src="/js/axios.min.js"></script>
-    <script src="/js/script.js"></script>
-</body>
-</html>
