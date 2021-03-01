@@ -5,19 +5,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="grid">
-        <header>
-    im the header
-  </header>
+   
 <div id="imageboardmain">
     <h1>IMAGEBOARDMAIN</h1>
-    
-        
 </div>    
- <footer>
-    Footer
-  </footer>
-</div>
+ 
+
     <div id="main">
         <form> 
             <input v-model='title' type="text" name='title' placeholder='title'>
@@ -28,17 +21,16 @@
 
         </form>
          <ul>
-             <h1 v-if='seen'>HIDE ME</h1>
+            
     <!--<my-first-component v-if="moodSelected" :mood-id="moodSelected" just-another-prop="🍸"
-    @close="closeComponent"></my-first-component>
+    @close="closeComponent"></my-first-component>-->
 
-            <h3 v-for='mood in moods' @click='selectMood (mood.id)'>{{mood.title}}</h3> -->
+            <h3 v-for='mood in moods' @click='selectMood (mood.id)'>{{mood.title}}</h3>
+            <my-modal-component v-if="moodSelected" :mood-id="moodSelected" @close="closeComponent"></modal-component>
+                        <button @click="toggleSeen">click me to toggle</button>
 
-            <my-modal-component v-if="imageSelected" :img-id="imageSelected" @close="closeComponent"></modal-component>
 
-              <!--- <h3 v-for="image in images" @click="selectImage(image.id)">{{image.title}}</h3> -->
-
-            <li v-for='image in images' :key='image.id'> 
+            <li v-for='image in images' :key='image.id' @click='handleClick'> 
                 {{image.title}} <img :src='image.url' alt="image"> </li> <!--image can be anything -- images is referring to an array in our data-->
         </ul>
      
@@ -46,7 +38,7 @@
 
     <script id="my-modal-template" type="text/x-template">
     <div class="modal">
-        <h3>this is my modal component </h3>
+        <h3>this is my modal template </h3>
         <h1>{{name}}</h1>
         <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2>
 

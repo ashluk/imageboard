@@ -8,6 +8,8 @@ Vue.component("my-modal-component", {
             name: "im here",
         };
     },
+    // seen: true,
+
     props: ["imageId"],
     mounted: function () {
         console.log("this imageId in component", this.imageId);
@@ -15,7 +17,7 @@ Vue.component("my-modal-component", {
     methods: {
         toggleSeen: function () {
             console.log("clicking seen");
-            this.seen = !this.seen;
+            // this.seen = !this.seen;
         },
     },
 });
@@ -27,18 +29,17 @@ new Vue({
 
         images: [],
         imageSelected: null,
-        seen: true,
         title: "",
         description: "",
         username: "",
         file: null,
 
-        /* moods: [
+        moods: [
             { id: 1, title: ":)" },
             { id: 2, title: ":(" },
             { id: 3, title: ":i" },
         ],
-        moodSelected: null,*/
+        moodSelected: null,
     },
     mounted: function () {
         //mounted is a moment that we know that data is loaded
@@ -91,17 +92,17 @@ new Vue({
             console.log("handlechange is running");
             this.file = e.target.files[0];
         },
-        /*selectMood: function (id) {
+        selectMood: function (id) {
             console.log("user selected a mood");
             console.log("id clicked", id);
             //this.moodSelcted - id is also close to what we want to do to render images
             this.moodSelected = id;
-        },*/
+        },
         selectImage: function (id) {
             console.log("user selected a image");
             console.log("id clicked", id);
             //this.moodSelcted - id is also close to what we want to do to render images
-            this.imgSelected = id;
+            this.imageSelected = id;
         },
         closeComponent: function () {
             console.log(
@@ -112,7 +113,7 @@ new Vue({
 });
 
 ////////////////////////ENCOUNTER//////////////////////////////
-Vue.component("my-first-component", {
+/*Vue.component("my-first-component", {
     template: "#my-component-template",
     data: function () {
         return {
@@ -137,7 +138,7 @@ Vue.component("my-first-component", {
             this.$emit("close");
         },
     },
-});
+});*/
 /////////////////////////////////////////////////////////////////////////
 
 /*new Vue({
