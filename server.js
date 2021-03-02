@@ -59,7 +59,18 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 app.get("/images", (req, res) => {
     db.getImages()
         .then(({ rows }) => {
-            console.log("returned from get images rows", rows);
+            //console.log("returned from get images rows", rows);
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("err in get images", err);
+        });
+});
+app.get("/images/:id", (req, res) => {
+    //console.log("req.params", req.params);
+    db.getImages(req.params.id)
+        .then(({ rows }) => {
+            console.log("returned from get images/:id", rows);
             res.json(rows);
         })
         .catch((err) => {

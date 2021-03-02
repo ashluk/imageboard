@@ -20,28 +20,35 @@
             <button @click.prevent='handleClick'>SUBMIT</button>
 
         </form>
-         <ul>
+         
             
     <!--<my-first-component v-if="moodSelected" :mood-id="moodSelected" just-another-prop="🍸"
     @close="closeComponent"></my-first-component>-->
 
-            <h3 v-for='mood in moods' @click='selectMood (mood.id)'>{{mood.title}}</h3>
-            <my-modal-component v-if="moodSelected" :mood-id="moodSelected" @close="closeComponent"></modal-component>
+         <!--  <h3 v-for='mood in moods' @click='selectMood (mood.id)' >{{mood.title}}</h3> -->
+            <my-modal-component v-if="imageSelected" :image-id="imageSelected"></my-modal-component>
 
 
-            <li v-for='image in images' :key='image.id' @click='handleClick'> 
-                {{image.title}} <img :src='image.url' alt="image"> </li> <!--image can be anything -- images is referring to an array in our data-->
-        </ul>
-     
+       <div class="columns">
+           <div v-for='image in images' :key='image.id' @click='selectImage(image.id)'> 
+              {{image.title}} <img :src='image.url' alt="image">></div>
+
+           <!---<ul>
+          <li v-for='image in images' :key='image.id' @click='handleClick'> 
+              {{image.title}} <img :src='image.url' alt="image"> </li> --- image can be anything -- images is referring to an array in our data
+      </ul>-->
+       </div>
+
     </div>
 
     <script id="my-modal-template" type="text/x-template">
     <div class="modal">
         <h3>this is my modal template </h3>
-        <h1>{{name}}</h1>
-       <!--- <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2>-->
+        <img v-bind:src="url" alt="image">
+        <h2>{{description}}</h2>
+        <h1 v-if="seen">{{name}}</h1>
+        <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2>
 
-        <button @click="toggleSeen">click me to toggle</button>
     </div>
     </script>
     <!--below is the template for my first component, it has to have an id and the type set to text/x-template, it needs to be outside our main block of html-->
@@ -66,5 +73,5 @@
         <h2 v-else>i am the else</h2>
         <ul>
             <li v-for='city in cities' :key='city.id' @click='handleClick'> 
-                {{city.name}}, {{city.country}} </li> <!--city can be anything -- cities is referring to an array in our data
+                {{city.name}}, {{city.country}} </li> --- city can be anything -- cities is referring to an array in our data
         </ul>--->

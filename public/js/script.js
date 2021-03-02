@@ -6,18 +6,37 @@ Vue.component("my-modal-component", {
     data: function () {
         return {
             name: "im here",
+            seen: true,
+            url: "",
+            title: "",
+            description: "",
+            username: "",
         };
     },
-    // seen: true,
 
     props: ["imageId"],
     mounted: function () {
-        console.log("this imageId in component", this.imageId);
+        // console.log("this imageId in component", this.imageId);
+        //var replacingThis = this;
+        var imageClicked = this.imageId;
+        console.log("imageClicked", imageClicked);
+
+        axios
+            .get("/images/:id")
+            .then(function (response) {
+                console.log("response", response.data[0]);
+                imageClicked = response.data[0];
+            })
+            .catch(function (err) {
+                console.log("error in imageID axios", err);
+            });
     },
     methods: {
-        toggleSeen: function () {
-            console.log("clicking seen");
-            // this.seen = !this.seen;
+        notifyParentToDoSth: function () {
+            console.log(
+                "hey component here i want the main vue instance to know to do something"
+            );
+            this.$emit("close");
         },
     },
 });
@@ -34,12 +53,12 @@ new Vue({
         username: "",
         file: null,
 
-        moods: [
+        /*  moods: [
             { id: 1, title: ":)" },
             { id: 2, title: ":(" },
             { id: 3, title: ":i" },
         ],
-        moodSelected: null,
+        moodSelected: null,*/
     },
     mounted: function () {
         //mounted is a moment that we know that data is loaded
@@ -92,18 +111,25 @@ new Vue({
             console.log("handlechange is running");
             this.file = e.target.files[0];
         },
-        selectMood: function (id) {
+        /*selectMood: function (id) {
             console.log("user selected a mood");
             console.log("id clicked", id);
             //this.moodSelcted - id is also close to what we want to do to render images
             this.moodSelected = id;
+        },*/
+        toggleSeen: function () {
+            console.log("clicking seen");
+            console.log("this in toggleSeen", this);
+            this.seen = !this.seen;
         },
-        /*selectImage: function (id) {
+        selectImage: function (id) {
             console.log("user selected a image");
             console.log("id clicked", id);
             //this.moodSelcted - id is also close to what we want to do to render images
             this.imageSelected = id;
-        },*/
+
+            //this.imageSelected = true;
+        },
         closeComponent: function () {
             console.log(
                 "the component just used that special keyword by emitting it, i should do something"
