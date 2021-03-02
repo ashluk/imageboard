@@ -22,7 +22,7 @@ Vue.component("my-modal-component", {
         console.log("imageClicked", imageClicked);
 
         axios
-            .get("/images/:id")
+            .get("/images/" + imageClicked)
             .then(function (response) {
                 console.log("response", response.data[0]);
                 imageClicked = response.data[0];
@@ -38,6 +38,14 @@ Vue.component("my-modal-component", {
             );
             this.$emit("close");
         },
+        /* closeComponent: function () {
+            console.log(
+                "the component just used that special keyword by emitting it, i should do something"
+            );
+            console.log("this in close component", this);
+            this.seen = !this.seen;
+            this.$emit("close");
+        },*/
     },
 });
 
@@ -125,7 +133,6 @@ new Vue({
         selectImage: function (id) {
             console.log("user selected a image");
             console.log("id clicked", id);
-            //this.moodSelcted - id is also close to what we want to do to render images
             this.imageSelected = id;
 
             //this.imageSelected = true;
@@ -134,6 +141,9 @@ new Vue({
             console.log(
                 "the component just used that special keyword by emitting it, i should do something"
             );
+            console.log("this in close component", this);
+            //this.seen = !this.seen;
+            // this.$emit("close");
         },
     },
 });

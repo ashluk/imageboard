@@ -26,7 +26,7 @@
     @close="closeComponent"></my-first-component>-->
 
          <!--  <h3 v-for='mood in moods' @click='selectMood (mood.id)' >{{mood.title}}</h3> -->
-            <my-modal-component v-if="imageSelected" :image-id="imageSelected"></my-modal-component>
+            <my-modal-component v-if="imageSelected" :image-id="imageSelected" @close="closeComponent" ></my-modal-component>
 
 
        <div class="columns">
@@ -43,11 +43,12 @@
 
     <script id="my-modal-template" type="text/x-template">
     <div class="modal">
+        <h1 @click="notifyParentToDoSth">X</h1>
         <h3>this is my modal template </h3>
         <img v-bind:src="url" alt="image">
         <h2>{{description}}</h2>
         <h1 v-if="seen">{{name}}</h1>
-        <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2>
+  <!-- <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2> -->
 
     </div>
     </script>

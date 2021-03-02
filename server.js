@@ -67,9 +67,11 @@ app.get("/images", (req, res) => {
         });
 });
 app.get("/images/:id", (req, res) => {
-    //console.log("req.params", req.params);
-    db.getImages(req.params.id)
+    db.getClickedImage(req.params.id)
+
         .then(({ rows }) => {
+            //console.log("req.params", req.params);
+
             console.log("returned from get images/:id", rows);
             res.json(rows);
         })

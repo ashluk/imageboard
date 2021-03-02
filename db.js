@@ -9,6 +9,13 @@ module.exports.getImages = () => {
     ORDER BY id DESC`;
     return db.query(q);
 };
+
+module.exports.getClickedImage = (id) => {
+    const q = `SELECT * FROM images WHERE id = $1`;
+    const params = [id];
+    return db.query(q, params);
+};
+
 module.exports.addImages = (url, username, title, description) => {
     const q = `
     INSERT INTO images (url, username, title, description)
