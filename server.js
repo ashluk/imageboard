@@ -97,12 +97,12 @@ app.get("/images/:id", (req, res) => {
 });
 ////////////////COMMENTS///////////////////////////
 app.get("/get-comments/:id", (req, res) => {
-    console.log("req.params in get comments", req.params);
-    const { id } = req.params;
+    console.log("req.params in get comments", req.params.id);
+    const { id } = req.params.id;
     db.getComments(id)
         .then(({ rows }) => {
-            console.log("getting comments", id);
-            res.json(rows);
+            console.log("getting comments", rows);
+            res.json();
         })
 
         .catch((err) => {
@@ -112,9 +112,9 @@ app.get("/get-comments/:id", (req, res) => {
 app.post("/comment", (req, res) => {
     console.log("req.body in get ", req.body);
 
-    const { comment, username } = req.body;
+    const { comment, username, imageid } = req.body;
 
-    db.addComments(username, comment)
+    db.addComments(username, comment, imageid)
         .then(({ rows }) => {
             console.log("adding comments in server", rows);
             res.json({

@@ -16,12 +16,12 @@ Vue.component("my-comments-component", {
     props: ["imageId"],
     mounted: function () {
         console.log("i am in the comments component");
-        console.log("what do we have", this.commentId);
+        console.log("imageid in comments mounted", this.imageId);
         var imageClicked = this.imageId;
         console.log("imageid in comments", imageClicked);
         var replacingThis = this;
         axios
-            .get("/get-comments/" + replacingThis.imageClicked)
+            .get("/get-comments/" + imageClicked)
             .then(function (response) {
                 console.log(
                     "response in /get-comments/:imageId",
@@ -39,7 +39,7 @@ Vue.component("my-comments-component", {
         commentSubmit: function () {
             console.log("telling parent to submit");
             console.log("what id do i have", this.imageId);
-            console.log("comment", this.comment);
+            // console.log("comment", this.comment);
             var replacingThis = this;
 
             var fullComment = {

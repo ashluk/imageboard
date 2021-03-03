@@ -80,8 +80,8 @@
    
     <div class="comments">
         
-    <input type="text" id="comment" name="comment" placeholder="comment here">
-    <input type="text" id="username" name="username" placeholder="username please">
+    <input v-model="comment" type="text" id="comment" name="comment" placeholder="comment here">
+    <input v-model='username' type="text" id="username" name="username" placeholder="username please">
 <button @click.prevent="commentSubmit">SUBMIT</button>   
  <p class="commentblock"> {{comments}} {{username}} </p>
 </div>
