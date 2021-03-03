@@ -1,6 +1,47 @@
 /*const e = require("express");
 const { axios } = require("./axios.min");*/
 
+Vue.component("my-comments-component", {
+    template: "#my-comments-template",
+    data: function () {
+        ///our data function us returning an object with these three properties
+        return {
+            //comments is an array -- username and comment are values.
+            comments: [],
+            commentSelected: null,
+            username: "",
+            comment: "",
+        };
+    },
+    props: ["imageId"],
+    mounted: function () {
+        console.log("i am in the comments component");
+        console.log("what do we have", this.commentId);
+        var imageClicked = this.imageId;
+        console.log("imageid in comments", imageClicked);
+        var replacingThis = this;
+        axios
+            .get("/get-comments/" + imageClicked)
+            .then(function (response) {
+                console.log(
+                    "response in /get-comments/:imageId",
+                    response.data
+                );
+                replacingThis.comment = response.data[0].comment;
+                replacingThis.username = response.data[0].username;
+            })
+            .catch(function (err) {
+                console.log("error in imageID axios", err);
+            });
+    },
+    methods: {
+        commentSubmit: function () {
+            console.log("telling parent to submit");
+            console.log("what id do i have", this.imageId);
+        },
+    },
+});
+
 Vue.component("my-modal-component", {
     template: "#my-modal-template",
     data: function () {
@@ -16,16 +57,22 @@ Vue.component("my-modal-component", {
 
     props: ["imageId"],
     mounted: function () {
-        // console.log("this imageId in component", this.imageId);
+        console.log("this imageId in component", this.imageId);
         //var replacingThis = this;
+
         var imageClicked = this.imageId;
         console.log("imageClicked", imageClicked);
-
+        var replacingThis = this;
         axios
             .get("/images/" + imageClicked)
             .then(function (response) {
-                console.log("response", response.data[0]);
-                imageClicked = response.data[0];
+                console.log("response in axios", response);
+                //console.log("response", response.data[0]);
+                // imageClicked = response.data[0];
+                replacingThis.url = response.data[0].url;
+                replacingThis.title = response.data[0].title;
+                replacingThis.description = response.data[0].description;
+                replacingThis.username = response.data[0].username;
             })
             .catch(function (err) {
                 console.log("error in imageID axios", err);
@@ -38,6 +85,7 @@ Vue.component("my-modal-component", {
             );
             this.$emit("close");
         },
+
         /* closeComponent: function () {
             console.log(
                 "the component just used that special keyword by emitting it, i should do something"
@@ -125,25 +173,27 @@ new Vue({
             //this.moodSelcted - id is also close to what we want to do to render images
             this.moodSelected = id;
         },*/
-        toggleSeen: function () {
+        /* toggleSeen: function () {
             console.log("clicking seen");
             console.log("this in toggleSeen", this);
             this.seen = !this.seen;
-        },
+        },*/
         selectImage: function (id) {
-            console.log("user selected a image");
+            // console.log("user selected a image");
             console.log("id clicked", id);
             this.imageSelected = id;
-
-            //this.imageSelected = true;
         },
+
         closeComponent: function () {
             console.log(
                 "the component just used that special keyword by emitting it, i should do something"
             );
             console.log("this in close component", this);
-            //this.seen = !this.seen;
-            // this.$emit("close");
+            this.imageSelected = null;
+        },
+        doMore: function (lastId) {
+            console.log("more button clicked", lastId);
+            //insert logic in here to get last more
         },
     },
 });

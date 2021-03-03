@@ -24,6 +24,9 @@ const uploader = multer({
     },
 });
 app.use(express.static("public"));
+app.use(express.json());
+
+//////////ADD IMAGES////////////////////
 
 app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
     console.log("hit thie s3 route");
@@ -39,6 +42,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
         description: description,
     };
     console.log("imgObject in server", imgObject);
+
     db.addImages(fullUrl, username, title, description)
         .then(({ rows }) => {
             //console.log("rows.id", rows);
@@ -55,7 +59,7 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
             console.log("err in addImages", err);
         });
 });
-
+////////////////GET IMAGES///////////////////
 app.get("/images", (req, res) => {
     db.getImages()
         .then(({ rows }) => {
@@ -66,6 +70,16 @@ app.get("/images", (req, res) => {
             console.log("err in get images", err);
         });
 });
+/////////////GET MORE IMAGES//////////////////
+app.get("/images", (req, res) => {
+    db.getMoreImages()
+        .then(({ rows }) => {})
+        .catch((err) => {
+            console.log("err in get more images", err);
+        });
+});
+
+//////////////////GET SELECTED IMAGE/////////////////
 app.get("/images/:id", (req, res) => {
     db.getClickedImage(req.params.id)
 
@@ -77,6 +91,31 @@ app.get("/images/:id", (req, res) => {
         })
         .catch((err) => {
             console.log("err in get images", err);
+        });
+});
+////////////////COMMENTS///////////////////////////
+app.get("/get-comments/:id", (req, res) => {
+    console.log("req.params in get comments", req.params);
+    const { id } = req.params;
+    db.getComments(id)
+        .then(({ rows }) => {})
+        .catch((err) => {
+            console.log("err in getComments", err);
+        });
+});
+app.post("/comment", (req, res) => {
+    const { comment, username, id } = req.body;
+    console.log("req.body in get comments", req.body);
+    db.addComments(username, comment, id)
+        .then(({ rows }) => {
+            res.json({
+                comment: comment,
+                username: username,
+                id: id,
+            });
+        })
+        .catch((err) => {
+            console.log("err in getComments", err);
         });
 });
 

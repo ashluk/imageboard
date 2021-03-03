@@ -26,32 +26,64 @@
     @close="closeComponent"></my-first-component>-->
 
          <!--  <h3 v-for='mood in moods' @click='selectMood (mood.id)' >{{mood.title}}</h3> -->
-            <my-modal-component v-if="imageSelected" :image-id="imageSelected" @close="closeComponent" ></my-modal-component>
+            <my-modal-component v-if="imageSelected" :image-id="imageSelected" @close="closeComponent" >
+        </my-modal-component>
+
+       
 
 
-       <div class="columns">
            <div v-for='image in images' :key='image.id' @click='selectImage(image.id)'> 
-              {{image.title}} <img :src='image.url' alt="image">></div>
+               <div class="imagebox">
+                 {{image.title}} 
+                 <img id="thisImage" :src='image.url' alt="image">
+                 
+               </div>
 
+              </div>
+              <button id="more" @click="doMore">MORE
+                 </button>
            <!---<ul>
           <li v-for='image in images' :key='image.id' @click='handleClick'> 
               {{image.title}} <img :src='image.url' alt="image"> </li> --- image can be anything -- images is referring to an array in our data
       </ul>-->
-       </div>
 
     </div>
 
     <script id="my-modal-template" type="text/x-template">
-    <div class="modal">
-        <h1 @click="notifyParentToDoSth">X</h1>
-        <h3>this is my modal template </h3>
-        <img v-bind:src="url" alt="image">
-        <h2>{{description}}</h2>
-        <h1 v-if="seen">{{name}}</h1>
-  <!-- <h2 @click="notifyParentToDoSth">TELL THE PARENT TO DO SOMETHING</h2> -->
+       
 
-    </div>
-    </script>
+            <div class="modal">
+                <div class="modalpopup">
+
+
+                   <!--- <img src="public/bomb.png" id="bomb" alt="bomb"> -->
+                    <img id="modalimage" v-bind:src="url" alt="image">
+                    <div class="info">
+            
+                        <h2>{{description}}</h2>
+                        <h3>{{username}}</h3>
+                </div>
+                <h4 id="x" @click="notifyParentToDoSth">X</h4>
+                </div>
+                <div class="commentcomponent">
+
+                    <my-comments-component :image-id="imageId" ></my-comments-component>
+                </div>
+        
+            </div>
+        
+</script>
+<script id='my-comments-template' type="text/x-template">
+   
+    <div class="comments">
+        
+    <input type="text" id="comment" name="comment" placeholder="comment here">
+    <input type="text" id="username" name="username" placeholder="username please">
+<button @click.prevent="commentSubmit">SUBMIT</button>   
+ <p class="commentblock"> {{comments}} {{username}} </p>
+</div>
+
+</script>
     <!--below is the template for my first component, it has to have an id and the type set to text/x-template, it needs to be outside our main block of html-->
 
     <!---<script id="my-component-template" type="text/x-template">
