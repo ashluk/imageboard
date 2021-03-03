@@ -21,7 +21,7 @@ Vue.component("my-comments-component", {
         console.log("imageid in comments", imageClicked);
         var replacingThis = this;
         axios
-            .get("/get-comments/" + imageClicked)
+            .get("/get-comments/" + replacingThis.imageClicked)
             .then(function (response) {
                 console.log(
                     "response in /get-comments/:imageId",
@@ -29,6 +29,7 @@ Vue.component("my-comments-component", {
                 );
                 replacingThis.comment = response.data[0].comment;
                 replacingThis.username = response.data[0].username;
+                replacingThis.comments = response.data;
             })
             .catch(function (err) {
                 console.log("error in imageID axios", err);
@@ -38,6 +39,28 @@ Vue.component("my-comments-component", {
         commentSubmit: function () {
             console.log("telling parent to submit");
             console.log("what id do i have", this.imageId);
+            console.log("comment", this.comment);
+            var replacingThis = this;
+
+            var fullComment = {
+                comment: replacingThis.comment,
+                username: replacingThis.username,
+                id: replacingThis.id,
+            };
+            console.log("this is my full comment", fullComment);
+            axios
+                .post("/comment", fullComment)
+                .then(function (response) {
+                    console.log("made it into axios comment post");
+                    console.log(
+                        "response.data in axios comment post",
+                        response.data
+                    );
+                    replacingThis.comment = "";
+                })
+                .catch(function (err) {
+                    console.log("error in comment sumbit post", err);
+                });
         },
     },
 });
@@ -78,6 +101,12 @@ Vue.component("my-modal-component", {
                 console.log("error in imageID axios", err);
             });
     },
+    watch: {
+        imageId: function () {
+            console.log("the watcher is reporting idchange");
+            //inside here we should do exactly the same thing that our mounted function (get new images info) this is so when you change your url the image changes reflect this new id
+        },
+    },
     methods: {
         notifyParentToDoSth: function () {
             console.log(
@@ -103,7 +132,7 @@ new Vue({
         name: "imageboard",
 
         images: [],
-        imageSelected: null,
+        imageSelected: location.hash.slice(1),
         title: "",
         description: "",
         username: "",
@@ -131,7 +160,12 @@ new Vue({
             .catch(function (err) {
                 console.log("error in axios", err);
             });
+        window.addEventListener("hashchange", function () {
+            console.log("hashchange has fired", location.hash);
+            self.imageSelected = location.hash.slice(1);
+        });
     },
+
     methods: {
         handleClick: function (e) {
             var formData = new FormData();

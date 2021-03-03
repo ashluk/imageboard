@@ -73,7 +73,9 @@ app.get("/images", (req, res) => {
 /////////////GET MORE IMAGES//////////////////
 app.get("/images", (req, res) => {
     db.getMoreImages()
-        .then(({ rows }) => {})
+        .then(({ rows }) => {
+            res.json(rows);
+        })
         .catch((err) => {
             console.log("err in get more images", err);
         });
@@ -98,20 +100,26 @@ app.get("/get-comments/:id", (req, res) => {
     console.log("req.params in get comments", req.params);
     const { id } = req.params;
     db.getComments(id)
-        .then(({ rows }) => {})
+        .then(({ rows }) => {
+            console.log("getting comments", id);
+            res.json(rows);
+        })
+
         .catch((err) => {
             console.log("err in getComments", err);
         });
 });
 app.post("/comment", (req, res) => {
-    const { comment, username, id } = req.body;
-    console.log("req.body in get comments", req.body);
-    db.addComments(username, comment, id)
+    console.log("req.body in get ", req.body);
+
+    const { comment, username } = req.body;
+
+    db.addComments(username, comment)
         .then(({ rows }) => {
+            console.log("adding comments in server", rows);
             res.json({
                 comment: comment,
                 username: username,
-                id: id,
             });
         })
         .catch((err) => {
