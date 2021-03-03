@@ -51,12 +51,11 @@ Vue.component("my-comments-component", {
             axios
                 .post("/comment", fullComment)
                 .then(function (response) {
-                    console.log("made it into axios comment post");
                     console.log(
                         "response.data in axios comment post",
                         response.data
                     );
-                    replacingThis.comment = "";
+                    replacingThis.comments = response.data.comments;
                 })
                 .catch(function (err) {
                     console.log("error in comment sumbit post", err);

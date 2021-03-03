@@ -43,12 +43,12 @@ module.exports.getComments = (id) => {
     const params = [id];
     return db.query(q, params);
 };
-module.exports.addComments = (comment, username, id) => {
+module.exports.addComments = (comment, username, imageid) => {
     const q = `
-    INSERT INTO comments (comment, username, id)
+    INSERT INTO comments (comment, username, imageid)
     VALUES  ($1, $2, $3)
-    RETURNING id
+    RETURNING *
       `;
-    const params = [comment, username, id];
+    const params = [comment, username, imageid];
     return db.query(q, params);
 };
