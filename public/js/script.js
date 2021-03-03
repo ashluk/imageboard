@@ -45,7 +45,7 @@ Vue.component("my-comments-component", {
             var fullComment = {
                 comment: replacingThis.comment,
                 username: replacingThis.username,
-                id: replacingThis.id,
+                id: replacingThis.imageId,
             };
             console.log("this is my full comment", fullComment);
             axios
@@ -231,6 +231,7 @@ new Vue({
             var replacingThis = this;
             axios.get("/more/" + lastId).then((response) => {
                 console.log("response.data in more", response.data);
+                ///what logic
             });
 
             //insert logic in here to get last more

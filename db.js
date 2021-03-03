@@ -39,7 +39,7 @@ module.exports.getMoreImages = (lastId) => {
 
 /////////////COMMENTS////////////////////
 module.exports.getComments = (id) => {
-    const q = `SELECT * FROM comments WHERE id = $1`;
+    const q = `SELECT * FROM comments WHERE imageid = $1`;
     const params = [id];
     return db.query(q, params);
 };

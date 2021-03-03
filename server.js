@@ -103,11 +103,11 @@ app.get("/get-comments/:id", (req, res) => {
     db.getComments(id)
         .then(({ rows }) => {
             console.log("getting comments", rows);
-            res.json();
+            res.json({ rows });
         })
 
         .catch((err) => {
-            console.log("err in getComments", err);
+            console.log("err in getComments GET ROUTE", err);
         });
 });
 app.post("/comment", (req, res) => {
@@ -124,7 +124,7 @@ app.post("/comment", (req, res) => {
             });
         })
         .catch((err) => {
-            console.log("err in getComments", err);
+            console.log("err in getComments POST ROUTE", err);
         });
 });
 
