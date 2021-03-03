@@ -225,8 +225,14 @@ new Vue({
             console.log("this in close component", this);
             this.imageSelected = null;
         },
-        doMore: function (lastId) {
-            console.log("more button clicked", lastId);
+        doMore: function () {
+            console.log("more button last image it", this.images.length);
+            var lastId = this.images.length;
+            var replacingThis = this;
+            axios.get("/more/" + lastId).then((response) => {
+                console.log("response.data in more", response.data);
+            });
+
             //insert logic in here to get last more
         },
     },

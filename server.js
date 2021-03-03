@@ -71,8 +71,9 @@ app.get("/images", (req, res) => {
         });
 });
 /////////////GET MORE IMAGES//////////////////
-app.get("/images", (req, res) => {
-    db.getMoreImages()
+app.get("/more/:lastId", (req, res) => {
+    console.log("req.params in get more", req.params);
+    db.getMoreImages(lastId)
         .then(({ rows }) => {
             res.json(rows);
         })
