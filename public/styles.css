@@ -14,6 +14,14 @@ body {
     background-color: ghostwhite;
 }
 
+#imageboardmain {
+    position: fixed;
+    text-align: center;
+    top: 0;
+    right: 50px;
+    left: 50px;
+}
+
 @font-face {
     font-family: "Druk Condensed";
     src: url("/fonts/typetoday/DrukCondCy-Super-Web.woff2?domain=readymag.com&md5=QIyE6a8IzrDQMGJ8cQW-wA")
@@ -27,6 +35,33 @@ body {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+}
+form {
+    position: relative;
+    height: 30px;
+    width: 800px;
+    left: 300px;
+    top: 0;
+}
+.commentbox {
+    position: relative;
+    left: 0px;
+    top: 300px;
+
+    width: 400px;
+    height: 65px;
+    text-align: justify;
+    background-color: ghostwhite;
+    text-overflow: ellipsis;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    /*visibility: invisible;*/
 }
 /*#main {
     position: relative;
@@ -55,12 +90,19 @@ body {
     left: 100px;
     height: 400px;
     width: 400px;
-    opacity: 60%;
+    opacity: 100%;
+    box-shadow: ghostwhite;
 }
+.commentinput {
+    position: fixed;
+    align-content: center;
+    top: 40px;
+}
+
 .info {
     position: absolute;
     align-self: center;
-    bottom: 50px;
+    top: 0px;
     left: 100px;
 }
 /*.comments {
@@ -78,7 +120,17 @@ h3 {
 }
 
 #x {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    position: absolute;
+    color: rgb(247, 186, 196);
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     right: 10px;
+    font-size: 0;
+    background-color: black;
+    outline: white 3px solid;
 }
 .modal {
     z-index: 1;
@@ -91,7 +143,7 @@ h3 {
     bottom: 50px;
     width: 600px;
     height: 600px;
-    background-color: pink;
+    /*background-color: pink;*/
 }
 .modalpopup {
     align-content: center;
@@ -111,6 +163,7 @@ h3 {
     text-align: center;
     flex-direction: column;
     justify-content: center;
+    margin-top: 70px;
     height: 330px;
     width: 330px;
 }

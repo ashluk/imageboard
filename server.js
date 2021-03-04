@@ -71,11 +71,13 @@ app.get("/images", (req, res) => {
         });
 });
 /////////////GET MORE IMAGES//////////////////
-app.get("/more/:lastId", (req, res) => {
-    console.log("req.params in get more", req.params);
-    db.getMoreImages(lastId)
+app.get("/more/:lowestId", (req, res) => {
+    console.log("req.params in get more", req.params.lowestId);
+    const lowestId = req.params.lowestId;
+    db.getMoreImages(lowestId)
         .then(({ rows }) => {
             res.json(rows);
+            console.log("rows in get more", rows);
         })
         .catch((err) => {
             console.log("err in get more images", err);
@@ -97,13 +99,15 @@ app.get("/images/:id", (req, res) => {
         });
 });
 ////////////////COMMENTS///////////////////////////
+
 app.get("/get-comments/:id", (req, res) => {
-    console.log("req.params in get comments", req.params.id);
-    const { id } = req.params.id;
+    console.log("req.params in get comments", req.params);
+    const { id } = req.params;
+    console.log("the value of id", id);
     db.getComments(id)
         .then(({ rows }) => {
             console.log("getting comments", rows);
-            res.json({ rows });
+            res.json(rows);
         })
 
         .catch((err) => {
@@ -113,9 +117,9 @@ app.get("/get-comments/:id", (req, res) => {
 app.post("/comment", (req, res) => {
     console.log("req.body in get ", req.body);
 
-    const { comment, username, imageid } = req.body;
+    const { comment, username, id } = req.body;
 
-    db.addComments(username, comment, imageid)
+    db.addComments(username, comment, id)
         .then(({ rows }) => {
             console.log("adding comments in server", rows);
             res.json({

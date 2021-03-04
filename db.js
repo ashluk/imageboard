@@ -28,18 +28,22 @@ module.exports.addImages = (url, username, title, description) => {
 };
 ///////////MORE IMAGES///////////////////
 
-module.exports.getMoreImages = (lastId) => {
-    const q = `SELECT * FROM images
-        WHERE id < $1
-        ORDER BY id DESC
-        LIMIT 10`;
-    const params = [lastId];
+module.exports.getMoreImages = (id) => {
+    const q = `SELECT url, title, id, (
+      SELECT id FROM images
+      ORDER BY id ASC
+      LIMIT 1
+  ) AS "lowestId" FROM images
+  WHERE id < $1
+  ORDER BY id DESC
+  LIMIT 10;`;
+    const params = [id];
     return db.query(q, params);
 };
 
 /////////////COMMENTS////////////////////
 module.exports.getComments = (id) => {
-    const q = `SELECT * FROM comments WHERE imageid = $1`;
+    const q = `SELECT * FROM comments WHERE imageId = $1`;
     const params = [id];
     return db.query(q, params);
 };

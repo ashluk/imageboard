@@ -35,18 +35,35 @@ Vue.component("my-comments-component", {
                 console.log("error in imageID axios", err);
             });
     },
+    watch: {
+        imageId: function () {
+            var imageClicked = this.imageId;
+            var replacingThis = this;
+            axios
+                .get("/get-comments/" + imageClicked)
+                .then(function (response) {
+                    replacingThis.comment = response.data[0].comment;
+                    replacingThis.username = response.data[0].username;
+                    replacingThis.comments = response.data;
+                })
+                .catch(function (err) {
+                    console.log("error in comments WATCH", err);
+                });
+        },
+    },
     methods: {
         commentSubmit: function () {
             console.log("telling parent to submit");
             console.log("what id do i have", this.imageId);
             // console.log("comment", this.comment);
             var replacingThis = this;
-
+            console.log("replacingThis", replacingThis.imageId);
             var fullComment = {
-                comment: replacingThis.comment,
-                username: replacingThis.username,
-                id: replacingThis.imageId,
+                comment: this.comment,
+                username: this.username,
+                id: this.imageId,
             };
+
             console.log("this is my full comment", fullComment);
             axios
                 .post("/comment", fullComment)
@@ -55,7 +72,8 @@ Vue.component("my-comments-component", {
                         "response.data in axios comment post",
                         response.data
                     );
-                    replacingThis.comments = response.data.comments;
+                    /*replacingThis.comments = response.data.comments;*/
+                    replacingThis.comments.unshift(response.data);
                 })
                 .catch(function (err) {
                     console.log("error in comment sumbit post", err);
@@ -82,11 +100,11 @@ Vue.component("my-modal-component", {
         console.log("this imageId in component", this.imageId);
         //var replacingThis = this;
 
-        var imageClicked = this.imageId;
-        console.log("imageClicked", imageClicked);
+        //var imageClicked = this.imageId;
+        //console.log("imageClicked", imageClicked);
         var replacingThis = this;
         axios
-            .get("/images/" + imageClicked)
+            .get("/images/" + replacingThis.imageId)
             .then(function (response) {
                 console.log("response in axios", response);
                 //console.log("response", response.data[0]);
@@ -98,11 +116,28 @@ Vue.component("my-modal-component", {
             })
             .catch(function (err) {
                 console.log("error in imageID axios", err);
+                replacingThis.$emit("close");
             });
     },
     watch: {
         imageId: function () {
             console.log("the watcher is reporting idchange");
+            var replacingThis = this;
+            axios
+                .get("/images/" + replacingThis.imageId)
+                .then(function (response) {
+                    console.log("response in axios", response);
+                    //console.log("response", response.data[0]);
+                    // imageClicked = response.data[0];
+                    replacingThis.url = response.data[0].url;
+                    replacingThis.title = response.data[0].title;
+                    replacingThis.description = response.data[0].description;
+                    replacingThis.username = response.data[0].username;
+                })
+                .catch(function (err) {
+                    console.log("error in imageID WATCHER", err);
+                    replacingThis.$emit("close");
+                });
             //inside here we should do exactly the same thing that our mounted function (get new images info) this is so when you change your url the image changes reflect this new id
         },
     },
@@ -136,19 +171,13 @@ new Vue({
         description: "",
         username: "",
         file: null,
-
-        /*  moods: [
-            { id: 1, title: ":)" },
-            { id: 2, title: ":(" },
-            { id: 3, title: ":i" },
-        ],
-        moodSelected: null,*/
+        seen: true,
     },
     mounted: function () {
         //mounted is a moment that we know that data is loaded
         //the moment that we access the server
         console.log("my main vue instance has mounted");
-        var self = this; //this is to ensure that function does not overwrite the value of this.
+        var self = this;
         //the argument we give axios is a route we want to have on our server
         axios
             .get("/images")
@@ -190,9 +219,7 @@ new Vue({
                 .catch(function (err) {
                     console.log("err in axios catch", err);
                 });
-            //this.seen = !this.seen;
             //this. is how we access properties on the vue object.
-            //this line is toggling the seen function on and off
         },
 
         handleChange: function (e) {
@@ -200,12 +227,7 @@ new Vue({
             console.log("handlechange is running");
             this.file = e.target.files[0];
         },
-        /*selectMood: function (id) {
-            console.log("user selected a mood");
-            console.log("id clicked", id);
-            //this.moodSelcted - id is also close to what we want to do to render images
-            this.moodSelected = id;
-        },*/
+
         /* toggleSeen: function () {
             console.log("clicking seen");
             console.log("this in toggleSeen", this);
@@ -223,17 +245,23 @@ new Vue({
             );
             console.log("this in close component", this);
             this.imageSelected = null;
+            location.hash = "";
         },
         doMore: function () {
             console.log("more button last image it", this.images.length);
-            var lastId = this.images.length;
+            var lowestId = this.images[this.images.length - 1].id;
             var replacingThis = this;
-            axios.get("/more/" + lastId).then((response) => {
+            axios.get("/more/" + lowestId).then(function (response) {
                 console.log("response.data in more", response.data);
-                ///what logic
-            });
+                replacingThis.images = [
+                    ...replacingThis.images,
+                    ...response.data,
+                ];
 
-            //insert logic in here to get last more
+                if (response.data.length == 0) {
+                    replacingThis.seen = !replacingThis.seen;
+                }
+            });
         },
     },
 });
