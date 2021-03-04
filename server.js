@@ -116,7 +116,7 @@ app.get("/get-comments/:id", (req, res) => {
 app.post("/comment", (req, res) => {
     console.log("req.body in get ", req.body);
 
-    const { comment, username, id } = req.body;
+    const { comment, username, id, created_at } = req.body;
 
     db.addComments(username, comment, id)
         .then(({ rows }) => {
@@ -124,6 +124,7 @@ app.post("/comment", (req, res) => {
             res.json({
                 comment: comment,
                 username: username,
+                created_at: created_at,
             });
         })
         .catch((err) => {

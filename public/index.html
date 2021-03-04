@@ -81,7 +81,7 @@
     <div  v-for='comment in comments' id='comments' :key="imageId" > 
     <div class="commentbox">
     <p>
-            {{comment.username}} posted by <em> {{comment.comment}} </em>
+            {{comment.username}} <em> posted by  {{comment.comment}} ----- {{comment.created_at}} </em>
         </p>
     </div>
 </div> 

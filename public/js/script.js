@@ -44,6 +44,7 @@ Vue.component("my-comments-component", {
                 .then(function (response) {
                     replacingThis.comment = response.data[0].comment;
                     replacingThis.username = response.data[0].username;
+                    replacingThis.created_at = response.data[0].created_at;
                     replacingThis.comments = response.data;
                 })
                 .catch(function (err) {
@@ -57,11 +58,12 @@ Vue.component("my-comments-component", {
             console.log("what id do i have", this.imageId);
             // console.log("comment", this.comment);
             var replacingThis = this;
-            console.log("replacingThis", replacingThis.imageId);
+            console.log("replacingThis", replacingThis);
             var fullComment = {
                 comment: this.comment,
                 username: this.username,
                 id: this.imageId,
+                created_at: this.created_at,
             };
 
             console.log("this is my full comment", fullComment);
