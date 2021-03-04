@@ -1,12 +1,12 @@
 /*const e = require("express");
 const { axios } = require("./axios.min");*/
 
+/////////////////COMMENTS COMPONENT//////////////////////////
 Vue.component("my-comments-component", {
     template: "#my-comments-template",
     data: function () {
         ///our data function us returning an object with these three properties
         return {
-            //comments is an array -- username and comment are values.
             comments: [],
             commentSelected: null,
             username: "",
@@ -81,6 +81,7 @@ Vue.component("my-comments-component", {
         },
     },
 });
+////////////////////MODAL COMPONENT////////////////////////////
 
 Vue.component("my-modal-component", {
     template: "#my-modal-template",
@@ -148,17 +149,9 @@ Vue.component("my-modal-component", {
             );
             this.$emit("close");
         },
-
-        /* closeComponent: function () {
-            console.log(
-                "the component just used that special keyword by emitting it, i should do something"
-            );
-            console.log("this in close component", this);
-            this.seen = !this.seen;
-            this.$emit("close");
-        },*/
     },
 });
+///////////////////////MAIN VUE////////////////////////////
 
 new Vue({
     el: "#main", //this is linked to the div id main -- el is vue's name for elements
@@ -204,7 +197,7 @@ new Vue({
             console.log("this.title", this.title);
             console.log("this.description", this.description);
             //second argument in axios post is an object
-            console.log(self.images, "self.images");
+            // console.log(self.images, "self.images");
             var replacingThis = this;
 
             axios
@@ -227,12 +220,6 @@ new Vue({
             console.log("handlechange is running");
             this.file = e.target.files[0];
         },
-
-        /* toggleSeen: function () {
-            console.log("clicking seen");
-            console.log("this in toggleSeen", this);
-            this.seen = !this.seen;
-        },*/
         selectImage: function (id) {
             // console.log("user selected a image");
             console.log("id clicked", id);
@@ -258,7 +245,7 @@ new Vue({
                     ...response.data,
                 ];
 
-                if (response.data.length == 0) {
+                if (response.data.length <= 0) {
                     replacingThis.seen = !replacingThis.seen;
                 }
             });

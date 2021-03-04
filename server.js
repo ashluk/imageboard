@@ -45,7 +45,6 @@ app.post("/upload", uploader.single("file"), s3.upload, (req, res) => {
 
     db.addImages(fullUrl, username, title, description)
         .then(({ rows }) => {
-            //console.log("rows.id", rows);
             let id = rows;
             console.log("id", id);
             res.json({
