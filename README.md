@@ -1,13 +1,14 @@
 # imageboard
 
 'HYPERSTACKS AND OTHER MAC MEMORIES' is Single Page Application that allows users to upload images with description and title as well as leave comments. 
-
+<br/>
 STACK
-• HTML5, CSS, Javascript
-• PostgreSQL Database
-• Express.js on Node.js
-• vue.js 
-• AWS S3 Cloud Storage
+<br/>
+• HTML5, CSS, Javascript <br/>
+• PostgreSQL Database <br/>
+• Express.js on Node.js <br/>
+• vue.js <br/>
+• AWS S3 Cloud Storage <br/>
 
 
 ![](public/images/imageboard3.png)
