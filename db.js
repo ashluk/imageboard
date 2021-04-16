@@ -4,6 +4,7 @@ const db = spicedPg(
         "postgres:postgres:postgres@localhost:5432/imageboard"
 );
 
+//////////GET IMAGES///////////////////////
 module.exports.getImages = () => {
     const q = `SELECT * FROM images
     ORDER BY id DESC
@@ -16,7 +17,7 @@ module.exports.getClickedImage = (id) => {
     const params = [id];
     return db.query(q, params);
 };
-
+///////////ADD IMAGES/////////////////////////
 module.exports.addImages = (url, username, title, description) => {
     const q = `
     INSERT INTO images (url, username, title, description)

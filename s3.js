@@ -18,6 +18,7 @@ exports.upload = (req, res, next) => {
         return res.sendStatus(500);
     }
     const { filename, mimetype, size, path } = req.file;
+    console.log("const req file", req.file);
 
     const promise = s3
         .putObject({

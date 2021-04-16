@@ -20,7 +20,7 @@ const diskStorage = multer.diskStorage({
 const uploader = multer({
     storage: diskStorage,
     limits: {
-        fileSize: 2097152,
+        fileSize: 10240000,
     },
 });
 app.use(express.static("public"));
