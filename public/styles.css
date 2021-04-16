@@ -106,6 +106,8 @@ form {
 
 #modalimage {
     position: absolute;
+    object-fit: cover;
+
     top: 70px;
     left: 100px;
     height: 400px;
